@@ -153,6 +153,7 @@
             max-width: 500px;
             margin-top: 37px;
             font-weight: 300;
+            
             box-sizing: border-box; /* Ensure padding and border are included in the width */
             word-wrap: break-word; /* Ensure long words break to fit the width */
             overflow: hidden; /* Hide overflow content */
@@ -268,7 +269,9 @@
             progressBarFill.innerText = ``;
             
             key_phrases.innerText = `Key Phrases: ${data.key_phrases.join(', ')}`;
-
+            if (data.key_phrases.join(', ').includes('Ambiguity Detected')){
+                key_phrases.style.fontStyle = 'italic';
+            }
             // Remove existing sentiment classes
             sentiment.classList.remove('sentiment-positive', 'sentiment-negative', 'sentiment-neutral');
             progressBarFill.classList.remove('progress-positive', 'progress-negative', 'progress-neutral');

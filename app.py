@@ -2,7 +2,7 @@ import string
 
 from flask import Flask, request, jsonify, render_template
 import torch
-from transformers import RobertaTokenizer, RobertaForSequenceClassification, pipeline
+from transformers import RobertaTokenizer, RobertaForSequenceClassification
 import nltk
 from nltk import word_tokenize, pos_tag, WordNetLemmatizer
 from nltk.corpus import stopwords
@@ -161,18 +161,21 @@ def extract_key_phrases(review, sentiment="both"):
     print(f"positive_phrases: {positive_phrases}")
     print(f"negative_phrases: {negative_phrases}")
     print(f"neutral_phrases: {neutral_phrases}")
-
+    ambiguity = ["Ambiguity Detected"]
     if sentiment == "Positive":
+        if not positive_phrases:
+            return ambiguity
         return positive_phrases
     elif sentiment == "Negative":
+        if not negative_phrases:
+            return ambiguity
         return negative_phrases
     elif sentiment == "Neutral":
+        if not neutral_phrases:
+            return ambiguity
         return neutral_phrases
-    elif sentiment == "both":
-        return positive_phrases, negative_phrases, neutral_phrases
     else:
         raise ValueError("Invalid sentiment parameter. Must be 'Positive', 'Negative', 'Neutral', or 'both'.")
-
 
 def expand_contractions(text, contractions_dict):
     try:
